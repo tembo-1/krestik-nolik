@@ -2,10 +2,9 @@ from perceptron import *
 
 class Population:
     def __init__(self):
-        self.size = 16
+        self.size = 32
         self.mutate = 0.05
-        self.krestik = []
-        self.nolik = []
+        self.person = []
         self.num_sloy = 4
         self.victory_combined = [
 		    [0, 4, 8],
@@ -19,8 +18,7 @@ class Population:
         ]
 
         for i in range(self.size):
-            self.krestik.append( Perceptron() )
-            self.nolik.append( Perceptron() )
+            self.person.append( Perceptron() )
 
     def checkWin(self, desk):
         for i in self.victory_combined:
@@ -44,7 +42,6 @@ class Population:
                 victory = True
                 player_krestir.score += 1
                 player_nolik.score -= 1
-
                 break
 
             count += 1
@@ -58,7 +55,6 @@ class Population:
                 victory = True
                 player_nolik.score += 1
                 player_krestir.score -= 1
-
                 break
 
             count += 1
@@ -66,59 +62,40 @@ class Population:
             if (count == 10):
                 break  
 
-
     def Selection(self):
-        temp_krestik = []
-        temp_nolik = []
+        temp_person = []
 
-        for player_krestik in self.krestik:
-            for player_nolik in self.nolik:
-                self.Game(player_krestik, player_nolik)
+        for i in self.person:
+            i.score = 0.0
 
-        for player_krestik in self.krestik:
-            temp_krestik.append(player_krestik)
+        for i in range(32):
+            for j in range(i+1, 32):
+                self.Game(self.person[i], self.person[j])
 
-        for player_nolik in self.nolik:
-            temp_nolik.append(player_nolik)       
+        for i in self.person:
+            temp_person.append(i)
+     
+        self.person = sorted(temp_person, key=lambda Perceptron: Perceptron.score, reverse=True)[:-16]
 
-        self.krestik = sorted(temp_krestik, key=lambda Perceptron: Perceptron.score, reverse=True)[:-8]
-        self.nolik = sorted(temp_nolik, key=lambda Perceptron: Perceptron.score, reverse=True)[:-8]
+        score_person = 0.0
+        for i in self.person:
+            score_person += i.score/16
 
-        score_krestik = 0.0
-        for i in self.krestik:
-            score_krestik += i.score/16
 
-        score_nolik = 0.0
-        for i in self.nolik:
-            score_nolik += i.score/16
-
-        print("Счёт крестиков", score_krestik)
-        print("Счёт ноликов", score_nolik) 
+        print("Общий счёт", score_person)
         
-
-
     def Reproduction(self):
-        for i in range(8):
-            parent_krestik1 = int(random.uniform(0, 8))
-            parent_krestik2 = int(random.uniform(0, 8))
+        for i in range(16):
+            parent1 = int(random.uniform(0, 16))
+            parent2 = int(random.uniform(0, 16))
 
-            parent_nolik1 = int(random.uniform(0, 8))
-            parent_nolik2 = int(random.uniform(0, 8))
+            while parent1 == parent2:
+                parent2 = int(random.uniform(0, 16))    
 
-            while parent_krestik1 == parent_krestik2:
-                parent_krestik2 = int(random.uniform(0, 8))    
-
-            self.krestik.append( self.krestik[parent_krestik1].Crossover(self.krestik[parent_krestik2]) )
-
-            while parent_nolik1 == parent_nolik2:
-                parent_nolik2 = int(random.uniform(0, 8))
-
-            self.nolik.append( self.nolik[parent_nolik1].Crossover(self.nolik[parent_nolik2]) )    
+            self.person.append( self.person[parent1].Crossover(self.person[parent2]) )  
 
     def Mutate(self):
-        for i in self.krestik:
-            i.Mutating(self.mutate)
-        for i in self.nolik:
+        for i in self.person:
             i.Mutating(self.mutate)
         
 

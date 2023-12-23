@@ -44,7 +44,7 @@ class Perceptron:
                 else:
                     result = 1 / (1 + math.exp( -betta * (work - self.sloy[i][n].porog) ))
 
-        return result  
+        return result
 
     def Crossover(self, parent):
         same = random.uniform(0, 1)

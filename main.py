@@ -3,6 +3,8 @@ from population import *
 
 population = Population ()
 
+# population.Selection()
+
 evolution = 100
 
 for i in range(evolution):
