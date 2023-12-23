@@ -44,7 +44,26 @@ class Perceptron:
                 else:
                     result = 1 / (1 + math.exp( -betta * (work - self.sloy[i][n].porog) ))
 
-        return result        
+        return result  
+
+    def Crossover(self, parent):
+        same = random.uniform(0, 1)
+        child = Perceptron()
+
+        for i in range(self.num_sloy):
+            for j in range(self.in_sloy[i]):
+                child.sloy[i][j].porog = same * self.sloy[i][j].porog + (1 - same) * parent.sloy[i][j].porog
+                for k in range(len(self.new_gate[i])):
+                    child.sloy[i][j].weight[k] = same * self.sloy[i][j].weight[k] + (1 - same) * parent.sloy[i][j].weight[k]
+
+        return child                
+        
+    def Mutating(self, mutate):
+        for i in range(self.num_sloy):
+            for j in range(self.in_sloy[i]):
+                self.sloy[i][j].porog *= random.uniform(1 - mutate, 1 + mutate)
+                for k in range(len(self.new_gate[i])):
+                    self.sloy[i][j].weight[k] *= random.uniform(1 - mutate, 1 + mutate)
 
     def step(self, desk, number):
         max = 0

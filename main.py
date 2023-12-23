@@ -1,25 +1,14 @@
 from perceptron import Perceptron
 from population import *
 
-neuron = Population ()
+population = Population ()
 
-game = neuron.Selection()
+evolution = 100
 
-
-
-for i in neuron.krestik:
-    print(i.score)
-
-print('================')
-
-for i in neuron.nolik:
-    print(i.score)
-    
+for i in range(evolution):
+    population.Selection()
+    population.Reproduction()
+    population.Mutate()
 
 
-# print(
-#     f"{game[0]}|{game[1]}|{game[2]}\n"\
-#     f"{game[3]}|{game[4]}|{game[5]}\n"\
-#     f"{game[6]}|{game[7]}|{game[8]}\n"
-# )
 
