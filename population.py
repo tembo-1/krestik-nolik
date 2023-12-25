@@ -2,7 +2,8 @@ from perceptron import *
 
 class Population:
     def __init__(self):
-        self.size = 20
+        self.size = 50
+        self.half_size = int(self.size/2)
         self.mutate = 0.05
         self.person = []
         self.num_sloy = 4
@@ -40,8 +41,8 @@ class Population:
             desk[player_krestir.step(desk, count)] = 1
             if (self.checkWin(desk)):
                 victory = True
-                player_krestir.score += 1
-                player_nolik.score -= 1
+                player_krestir.score += 10 - count
+                player_nolik.score -= 10 + count
                 break
 
             count += 1
@@ -52,8 +53,8 @@ class Population:
             desk[player_nolik.step(desk, count)] = -1
             if (self.checkWin(desk)):
                 victory = True
-                player_nolik.score += 1
-                player_krestir.score -= 1
+                player_nolik.score += 10 - count
+                player_krestir.score -= 10 + count
                 break
 
             count += 1
@@ -76,20 +77,20 @@ class Population:
      
         score_person = 0.0
         for i in self.person:
-            score_person += i.score/20
+            score_person += i.score/self.half_size
 
         print("Общий счёт", score_person)
 
-        self.person = sorted(temp_person, key=lambda Perceptron: Perceptron.score, reverse=True)[:-10]
+        self.person = sorted(temp_person, key=lambda Perceptron: Perceptron.score, reverse=True)[:-self.half_size]
 
         
     def Reproduction(self):
-        for i in range(10):
-            parent1 = int(random.uniform(0, 10))
-            parent2 = int(random.uniform(0, 10))
+        for i in range(self.half_size):
+            parent1 = int(random.uniform(0, self.half_size))
+            parent2 = int(random.uniform(0, self.half_size))
 
             while parent1 == parent2:
-                parent2 = int(random.uniform(0, 10))    
+                parent2 = int(random.uniform(0, self.half_size))    
 
             self.person.append( self.person[parent1].Crossover(self.person[parent2]) )  
 

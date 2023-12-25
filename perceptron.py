@@ -46,6 +46,7 @@ class Perceptron:
         for g in range (len(gate)):
             self.new_gate[0][g] = gate[g]
 
+
         for i in range(self.num_sloy):
             for n in range(self.in_sloy[i]):
                 work = 0
@@ -78,7 +79,7 @@ class Perceptron:
                     self.sloy[i][j].weight[k] *= random.uniform(1 - mutate, 1 + mutate)
 
     def step(self, desk, number):
-        max = 0
+        max = -100
         max_i = 0
 
         for i in range(len(desk)):
