@@ -2,7 +2,7 @@ from perceptron import *
 
 class Population:
     def __init__(self):
-        self.size = 32
+        self.size = 20
         self.mutate = 0.05
         self.person = []
         self.num_sloy = 4
@@ -49,7 +49,6 @@ class Population:
             if (count == 10):
                 break    
             
-
             desk[player_nolik.step(desk, count)] = -1
             if (self.checkWin(desk)):
                 victory = True
@@ -68,29 +67,29 @@ class Population:
         for i in self.person:
             i.score = 0.0
 
-        for i in range(32):
-            for j in range(i+1, 32):
+        for i in range(self.size):
+            for j in range(i+1, self.size):
                 self.Game(self.person[i], self.person[j])
 
         for i in self.person:
             temp_person.append(i)
      
-        self.person = sorted(temp_person, key=lambda Perceptron: Perceptron.score, reverse=True)[:-16]
-
         score_person = 0.0
         for i in self.person:
-            score_person += i.score/16
-
+            score_person += i.score/20
 
         print("Общий счёт", score_person)
+
+        self.person = sorted(temp_person, key=lambda Perceptron: Perceptron.score, reverse=True)[:-10]
+
         
     def Reproduction(self):
-        for i in range(16):
-            parent1 = int(random.uniform(0, 16))
-            parent2 = int(random.uniform(0, 16))
+        for i in range(10):
+            parent1 = int(random.uniform(0, 10))
+            parent2 = int(random.uniform(0, 10))
 
             while parent1 == parent2:
-                parent2 = int(random.uniform(0, 16))    
+                parent2 = int(random.uniform(0, 10))    
 
             self.person.append( self.person[parent1].Crossover(self.person[parent2]) )  
 
