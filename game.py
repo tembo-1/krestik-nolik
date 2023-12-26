@@ -36,10 +36,7 @@ class Game:
                 f"|{self.desk[6]}|{self.desk[7]}|{self.desk[8]}|\n")
 
     def Check(self):
-        if (self.number == 10):
-            self.victory = True
-            print('Ничья')
-            return 
+
 
         if (self.checkWin()):
             if (self.number % 2):
@@ -48,6 +45,11 @@ class Game:
                 print('Выиграли крестики')    
             self.victory = True
             return  
+            
+        if (self.number == 10):
+            self.victory = True
+            print('Ничья')
+            return 
 
     def StepEnemy(self):
         if (self.type == 1):

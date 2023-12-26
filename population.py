@@ -2,9 +2,9 @@ from perceptron import *
 
 class Population:
     def __init__(self):
-        self.size = 50
+        self.size = 20
         self.half_size = int(self.size/2)
-        self.mutate = 0.05
+        self.mutate = 0.2
         self.person = []
         self.num_sloy = 4
         self.victory_combined = [
@@ -41,26 +41,38 @@ class Population:
             desk[player_krestir.step(desk, count)] = 1
             if (self.checkWin(desk)):
                 victory = True
-                player_krestir.score += 10 - count
-                player_nolik.score -= 10 + count
+                if (count <= 5):
+                    player_krestir.score += 10 
+                if (count >= 6):
+                    player_krestir.score -= 6
+                player_krestir.score += 8
+                player_nolik.score -= 8
                 break
 
             count += 1
                 
             if (count == 10):
+                player_krestir.score -= 3  
+                player_nolik.score -= 3
                 break    
             
             desk[player_nolik.step(desk, count)] = -1
             if (self.checkWin(desk)):
                 victory = True
-                player_nolik.score += 10 - count
-                player_krestir.score -= 10 + count
+                if (count <= 5):
+                    player_nolik.score += 10  
+                if (count >= 6):
+                    player_nolik.score -= 6     
+                player_nolik.score += 8
+                player_krestir.score -= 8
                 break
 
             count += 1
 
             if (count == 10):
-                break  
+                player_krestir.score -= 3  
+                player_nolik.score -= 3
+                break   
 
     def Selection(self):
         temp_person = []
@@ -77,11 +89,13 @@ class Population:
      
         score_person = 0.0
         for i in self.person:
-            score_person += i.score/self.half_size
+            score_person += i.score
 
         print("Общий счёт", score_person)
 
         self.person = sorted(temp_person, key=lambda Perceptron: Perceptron.score, reverse=True)[:-self.half_size]
+
+        return score_person
 
         
     def Reproduction(self):

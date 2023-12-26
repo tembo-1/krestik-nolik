@@ -8,11 +8,11 @@ education = int(input('Обучать - 1, не обучать - 0: '))
 if (education):
     population = Population ()
 
-    evolution = 20
+    evolution = 10000
 
     for i in range(evolution):
         print(i)
-        population.Selection()
+        count = population.Selection()
         population.Reproduction()
         population.Mutate()
         if i % 10 == 0:
@@ -32,7 +32,7 @@ if (education):
                     data.append({"neuron" : j, "sloy": k, "porog" : winner.sloy[k][j].porog, "weight" : winner.sloy[k][j].weight})
 
             with open('data.json', 'w') as f:
-                json.dump(data, f)
+                json.dump(data, f)  
 
 
     data = population.person
